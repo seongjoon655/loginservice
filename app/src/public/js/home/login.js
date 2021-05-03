@@ -13,11 +13,19 @@ function login(){
     const req = {
         id: id.value,
         psword: psword.value,
-    };
+    };    
+    //console.log(req); //objec 형태로 key 와 value 
+    //console.log(JSON.stringify(req)); //문자열로 감싸진다.
 
-    //fetch();
-    console.log(req);
-
+    
+    fetch("/login",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify(req)
+    });
+    
 }
 
 //console.log(id);
