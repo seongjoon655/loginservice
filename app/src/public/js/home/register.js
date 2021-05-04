@@ -3,22 +3,22 @@
 //DOM -> Document Object Model
 
 const id = document.querySelector("#id");
+const name = document.getSelection("#name");
 const psword = document.querySelector("#psword");
-const loginBtn = document.querySelector("#button");
+const confirmPsword = document.querySelector("#confirm-psword");
+const registerBtn = document.querySelector("#button");
 
+registerBtn.addEventListener("click",register);
 
-loginBtn.addEventListener("click",login);
-
-function login(){
+function register(){
     const req = {
         id: id.value,
+        name: name.value,
         psword: psword.value,
+        confirmPsword: confirmPsword.value,
     };    
-    //console.log(req); //objec 형태로 key 와 value 
-    //console.log(JSON.stringify(req)); //문자열로 감싸진다.
-
-    
-    fetch("/login",{
+        
+    fetch("/register",{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -28,7 +28,7 @@ function login(){
     .then((res)=>res.json())
     .then((res)=>{
         if(res.success){
-            location.href = "/";
+            location.href = "/login";
         }
         else{
             alert(res.msg);
@@ -36,9 +36,9 @@ function login(){
     })
     .catch((err)=>{
         //console.error(new Error('로그인 중 에러 발생'));
-        console.error('로그인 중 에러 발생');
+        console.error('회원가입 중 에러 발생');
     });
-    
-}
 
-//console.log(id);
+    
+
+}

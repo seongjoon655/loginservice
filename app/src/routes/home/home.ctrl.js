@@ -7,6 +7,7 @@ const output = {
         res.render('home/index');
     },    
     login : (req,res)=>{
+        //console.log('test');
         res.render('home/login');
     },
     register : (req,res) =>{
