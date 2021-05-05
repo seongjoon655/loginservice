@@ -1,10 +1,12 @@
 "use strict";
 
+const User = require("./User");
+
 class UserStorage{
     static #users = {
         id: ["yoonit","나개발","윤팀장"],
         psword: ["123","1234","12345"],
-        names: ["성주니","개발자","연습중"],
+        name: ["성주니","개발자","연습중"],
     };
 
     static getUser(...fields){
@@ -29,6 +31,15 @@ class UserStorage{
             return newUser;
         },{});
         return userInfo;
+    }
+
+    static save(userInfo){
+        const users = this.#users;         
+        users.id.push(userInfo.id);
+        users.name.push(userInfo.name);
+        users.psword.push(userInfo.psword);
+        //console.log(users);
+        return { success: true};
     }
 }
 
