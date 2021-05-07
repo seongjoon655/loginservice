@@ -14,8 +14,9 @@ class UserStorage{
         return userInfo;
     }
 
-    static getUser(...fields){
-        //const users = this.#users;
+    static #getUsers(data,siAll,ields){
+        const users = JSON.parse(data);
+        if(siAll) return users;
         const newUsers = fields.reduce((newUsers, field)=>{
             if(users.hasOwnProperty(field)){
                 newUsers[field] = users[field];
@@ -23,6 +24,15 @@ class UserStorage{
             return newUsers;
         },{});        
         return newUsers; 
+    }
+
+    static getUser(siAll,...fields){
+        return fs
+        .readFile("./src/databases/user.json")
+        .then((data)=>{
+            return this.#getUsers(data,siAll,fields);
+        })
+        .catch(console.error);
     }
 
     static getUserInfo(id){        
@@ -33,13 +43,22 @@ class UserStorage{
         })
         .catch(console.error);
     }
+    
+    static async save(userInfo){
+        const users = await this.getUser(true);
+        console.log(users);
+        if(users.id.includes(userInfo.id)){
+            //return new Error("이미 존재하는 아이디입니다.");
+            throw "이미 존재하는 아이디입니다."; 
+        }
 
-    static save(userInfo){
-        //const users = this.#users;         
+        //데이터 추가
         users.id.push(userInfo.id);
         users.name.push(userInfo.name);
-        users.psword.push(userInfo.psword);        
-        return { success: true};
+        users.psword.push(userInfo.psword);
+        fs.writeFile("./src/databases/user.json",JSON.stringify(users));
+        return { success:true };        
+
     }
 }
 
