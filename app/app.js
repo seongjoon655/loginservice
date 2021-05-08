@@ -4,11 +4,20 @@
 const express = require('express');
 const bodyPaser = require('body-parser');
 const dotenv = require('dotenv');
-dotenv.config();
+const morgan = require('morgan');
+const fs = require('fs');
+
 const app = express();
+dotenv.config();
+
+const accessLogStream = require('./src/config/log');
 
 //라우팅
 const home = require('./src/routes/home');
+
+//const logger = require('./src/config/logger');
+//logger.log('info','hello winston');
+//logger.error('hello winston');
 
 //앱 세팅
 app.set('views', './src/views');//view 폴더위치
@@ -18,6 +27,13 @@ app.use(bodyPaser.json());
 //URL을 통해서 전달되는 테이터에 한글,
 //공백 등과 같은 문자가 포함될 경우 제대로 인식되지 않는 문제를 해결
 app.use(bodyPaser.urlencoded({ extended: true }));
+
+//로그 출력
+/*
+app.use(morgan('dev'));
+//app.use(morgan('common',{stream:accessLogStream}));
+app.use(morgan(':method :url :date[web]',{stream:accessLogStream}));
+*/
 
 app.use('/',home);//미들웨어를 등록해주는 메서드
 
