@@ -28,7 +28,9 @@ app.use(express.static(`${__dirname}/src/public`));
 app.use(bodyPaser.json());
 //URL을 통해서 전달되는 테이터에 한글,
 //morgan 과 wiston 을 동시에 사용해서 로그 출력 방법
-app.use(morgan('tiny', {stream: logger.stream}));
+//app.use(morgan('tiny', {stream: logger.stream}));
+
+
 //공백 등과 같은 문자가 포함될 경우 제대로 인식되지 않는 문제를 해결
 app.use(bodyPaser.urlencoded({ extended: true }));
 

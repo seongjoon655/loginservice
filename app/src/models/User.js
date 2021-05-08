@@ -19,14 +19,14 @@ class User{
     async login(){
         try{
             const client = this.body;
-            const res = await UserStorage.getUserInfo(client.id);;
+            const user = await UserStorage.getUserInfo(client.id);;
             //console.log(res);
-            const { id,psword } =  res;        
+            //const { id,psword } =  user;        
             //console.log({ id,psword });
             //await UserStorage.getUserInfo(client.id); 
             
-            if(id){
-                if(id === client.id && psword === client.psword) {
+            if(user){
+                if(user.id === client.id && user.psword === client.psword) {
                     return { success: true};
                 }
                 return { success:false, msg:"비밀번호가 틀렸습니다."};
