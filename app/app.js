@@ -3,8 +3,9 @@
 //모듈
 const express = require('express');
 const bodyPaser = require('body-parser');
-const dotenv = require('dotenv');
 const morgan = require('morgan');
+const loggger = require('./src/config/logger');
+const dotenv = require('dotenv');
 const fs = require('fs');
 
 const app = express();
@@ -14,6 +15,7 @@ const accessLogStream = require('./src/config/log');
 
 //라우팅
 const home = require('./src/routes/home');
+const logger = require('./src/config/logger');
 
 //const logger = require('./src/config/logger');
 //logger.log('info','hello winston');
@@ -25,6 +27,8 @@ app.set('view engine','ejs');//엔진코드 해석 명시
 app.use(express.static(`${__dirname}/src/public`));
 app.use(bodyPaser.json());
 //URL을 통해서 전달되는 테이터에 한글,
+//morgan 과 wiston 을 동시에 사용해서 로그 출력 방법
+app.use(morgan('tiny', {stream: logger.stream}));
 //공백 등과 같은 문자가 포함될 경우 제대로 인식되지 않는 문제를 해결
 app.use(bodyPaser.urlencoded({ extended: true }));
 
