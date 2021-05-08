@@ -17,16 +17,25 @@ class User{
     //해당 함수를 사용하는 login 함수는 
     //async 라는 처리를 진행하는 함수안에서 사용한다.
     async login(){
-        const client = this.body;
-        const { id,psword } =  await UserStorage.getUserInfo(client.id); 
-        
-        if(id){
-            if(id === client.id && psword === client.psword) {
-                return { success: true};
+        try{
+            const client = this.body;
+            const res = await UserStorage.getUserInfo(client.id);;
+            //console.log(res);
+            const { id,psword } =  res;        
+            //console.log({ id,psword });
+            //await UserStorage.getUserInfo(client.id); 
+            
+            if(id){
+                if(id === client.id && psword === client.psword) {
+                    return { success: true};
+                }
+                return { success:false, msg:"비밀번호가 틀렸습니다."};
             }
-            return { success:false, msg:"비밀번호가 틀렸습니다."};
+            return { success:false, msg:"존재하지 않는 아이디입니다."};    
+        }   
+        catch(err){
+            return { success:false, msg:err };
         }
-        return { success:false, msg:"존재하지 않는 아이디입니다."};
     }
 
     async register(){
